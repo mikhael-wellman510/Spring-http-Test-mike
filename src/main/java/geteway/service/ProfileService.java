@@ -13,4 +13,5 @@ public interface ProfileService {
     CompletableFuture<?> updated(ProfileRequest profileRequest) throws JsonProcessingException;
     CompletableFuture<?> findAll() throws JsonProcessingException;
     CompletableFuture<?> deleted(String id) throws JsonProcessingException;
+    CompletableFuture<?> paggingFindByName(String name ,Integer weight, Integer page , Integer size);
 }

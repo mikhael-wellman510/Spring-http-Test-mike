@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import geteway.dto.PaggingResponse;
 import geteway.dto.ProfileRequest;
 
 import geteway.dto.ProfileResponse;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -142,5 +144,23 @@ public class ProfileServiceImpl implements ProfileService {
                     }
                 }).toCompletableFuture()
                 ;
+    }
+
+    @Override
+    public CompletableFuture<?> paggingFindByName(String name, Integer weight, Integer page, Integer size) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.CONTENT_TYPE, "application/json");
+        String url = "http://localhost:8000/findNameAndWeight?name=" + name + "&weight=" + weight + "&page=" +page + "&size=" + size;
+
+        return asyncHttpClient.prepareGet(url).setHeaders(httpHeaders)
+                .execute(new AsyncCompletionHandler<PaggingResponse>() {
+
+                    @Override
+                    public @Nullable PaggingResponse onCompleted(@Nullable Response response) throws Exception {
+
+                        String body = response.getResponseBody();
+                        return objectMapper.readValue(body, PaggingResponse.class);
+                    }
+                }).toCompletableFuture();
     }
 }

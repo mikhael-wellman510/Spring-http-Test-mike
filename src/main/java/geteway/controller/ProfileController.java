@@ -41,6 +41,17 @@ public class ProfileController {
                 });
     }
 
+    @GetMapping("/findNameAndWeight")
+    public CompletableFuture<?> paggingFindNameAndWeight(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "weight", required = false , defaultValue = "0") Integer weight, @RequestParam(name = "page", defaultValue = "0") Integer page, @RequestParam(name = "size", defaultValue = "5")Integer size){
+        log.info("weight {} " , weight);
+        return profileService.paggingFindByName(name, weight, page, size)
+                .thenApply(res-> {
+                    return ResponseEntity.ok(res);
+                }).exceptionally(ex -> {
+                    return null;
+                });
+    }
+
     @PutMapping("/updated")
     public CompletableFuture<?> updated(@RequestBody ProfileRequest profileRequest) throws JsonProcessingException{
         return profileService.updated(profileRequest)
