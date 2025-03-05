@@ -87,4 +87,16 @@ public class ProfileController {
                 });
     }
 
+    @GetMapping("/findBigQuery")
+    public CompletableFuture<?> findAllBigQuery() throws JsonProcessingException {
+
+        return profileService.findAllBigQuery()
+                .thenApply(res -> {
+                    return ResponseEntity.ok(res);
+                })
+                .exceptionally(ex ->{
+                    return  null;
+                });
+    }
+
 }

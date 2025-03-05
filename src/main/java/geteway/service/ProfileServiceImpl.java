@@ -9,6 +9,7 @@ import geteway.dto.PaggingResponse;
 import geteway.dto.ProfileRequest;
 
 import geteway.dto.ProfileResponse;
+import geteway.dto.ReactionRecord;
 import geteway.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -162,5 +164,29 @@ public class ProfileServiceImpl implements ProfileService {
                         return objectMapper.readValue(body, PaggingResponse.class);
                     }
                 }).toCompletableFuture();
+    }
+
+    @Override
+    public CompletableFuture<?> findAllBigQuery() throws JsonProcessingException {
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.CONTENT_TYPE,"application/json" );
+
+        String url = "http://localhost:8000/findAllBigQuery";
+
+
+        return asyncHttpClient.prepareGet(url)
+                .setHeaders(httpHeaders)
+                .execute(new AsyncCompletionHandler<Object>() {
+                    @Override
+                    public @Nullable Object onCompleted(@Nullable Response response) throws Exception {
+                        System.out.println(response.getResponseBody());
+                        String body = response.getResponseBody();
+                        log.info("body : {} " , body);
+                        return objectMapper.readValue(body, new TypeReference<List<ReactionRecord>>() {});
+                    }
+                })
+                .toCompletableFuture()
+                ;
     }
 }
