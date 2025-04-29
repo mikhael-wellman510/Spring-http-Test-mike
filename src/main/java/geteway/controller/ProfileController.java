@@ -2,6 +2,7 @@ package geteway.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import geteway.dto.ProfileRequest;
+import geteway.dto.ScopeDto;
 import geteway.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,12 @@ import java.util.concurrent.CompletableFuture;
 public class ProfileController {
 
     private final ProfileService profileService;
+
+    @PostMapping("/scope")
+    public String scope(@RequestBody ScopeDto scopeDto){
+        log.info("cek");
+        return profileService.scope(scopeDto);
+    }
 
     @PostMapping("/add")
     public CompletableFuture<?> addProfile(@RequestBody ProfileRequest profileRequest) throws JsonProcessingException {
@@ -84,6 +91,18 @@ public class ProfileController {
                 })
                 .exceptionally(res -> {
                     return null;
+                });
+    }
+
+    @GetMapping("/findBigQuery")
+    public CompletableFuture<?> findAllBigQuery() throws JsonProcessingException {
+
+        return profileService.findAllBigQuery()
+                .thenApply(res -> {
+                    return ResponseEntity.ok(res);
+                })
+                .exceptionally(ex ->{
+                    return  null;
                 });
     }
 
