@@ -3,7 +3,9 @@ package geteway.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import geteway.config.RabbitMqConfig;
+import geteway.dto.ChatMessage;
 import geteway.dto.MessageRequest;
+import geteway.service.ChatServiceImpl;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ public class MessageController {
 
     private final RabbitTemplate rabbitTemplate;
     private final ObjectMapper objectMapper;
+    private final ChatServiceImpl chatService;
 //    @Value("${spring.rabbitmq.exchange}")
 //    private String exchange;
 //
@@ -37,4 +40,14 @@ public class MessageController {
 
         return "Success";
     };
+
+    @PostMapping("/sendNotifRabbit")
+    public void sendNotifRabbit() throws JsonProcessingException {
+        log.info("Sen notif");
+        ChatMessage chat = new ChatMessage();
+        chat.setContent("Notif Test");
+
+        String json = objectMapper.writeValueAsString(chat);
+        rabbitTemplate.convertAndSend("exampleQueue",json);
+    }
 }
