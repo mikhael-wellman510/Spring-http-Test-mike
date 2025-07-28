@@ -62,7 +62,7 @@ public class BiodataService {
 
 
 
-        return new PagginatedResponse(listBio ,page ,size,biodata.getTotalElements() );
+        return new PagginatedResponse(listBio ,page ,size,biodata.getTotalElements());
     }
 
 
