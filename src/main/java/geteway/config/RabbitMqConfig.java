@@ -2,6 +2,7 @@ package geteway.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -14,17 +15,94 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
-//    @Value("${spring.rabbitmq.queue}")
-//    private String queueName;
-//
-//    @Value("${spring.rabbitmq.exchange}")
-//    private String exchange;
-    public static final String QUEUE_NAME = "exampleQueue";
+    // Todo -> Declare Topic
+    public static final String APP_EXCHANGE = "app.topic.exchange";
+
+    // Todo -> Routing keys
+    public static final String BROADCAST_ROUTING_KEY = "broadcast";
+    public static final String BROADCAST_MESSAGE_KEY = "broadcast_message";
+    public static final String ORDER_ROUTING_KEY = "order";
+
+
+    // Todo -> Queue Names
+    public static final String BROADCAST_QUEUE = "broadcast.queue";
+    public static final String BROADCAST_MESSAGE_QUEUE = "broadcast.message.queue";
+    public static final String ORDER_QUEUE = "order.queue";
+    public static final String PAYMENT_QUEUE = "payment.queue";
+
+
+
+    //Todo -> Declare Topic Exchange
+    @Bean
+    public TopicExchange appExchange() {
+        return new TopicExchange(APP_EXCHANGE);
+    }
+
+
+    //Todo -> Declare Queue
+    @Bean
+    public Queue broadcastQueue(){
+        return new Queue(BROADCAST_QUEUE ,true);
+    }
+
+    @Bean Queue broadcastMessageQueue(){
+        return new Queue(BROADCAST_MESSAGE_QUEUE,true);
+    }
+    @Bean
+    public Queue orderQueue() {
+        return new Queue(ORDER_QUEUE, true); // durable
+    }
 
     @Bean
-    public Queue queue(){
-        log.info("Queue : {} " , QUEUE_NAME);
-        return new Queue(QUEUE_NAME,false);
+    public Queue paymentQueue() {
+        return new Queue(PAYMENT_QUEUE, true); // durable
+    }
+
+
+
+
+
+    //Todo-> Binding: hubungkan queue ke exchange dengan routing key
+    @Bean
+    public Binding broadcastBinding(Queue broadcastQueue , TopicExchange appExchange){
+        return BindingBuilder.bind(broadcastQueue).to(appExchange).with(BROADCAST_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding broadcastMessageBinding(Queue broadcastMessageQueue , TopicExchange appExchange){
+        return BindingBuilder.bind(broadcastMessageQueue).to(appExchange).with(BROADCAST_MESSAGE_KEY);
+    }
+
+    @Bean
+    public Binding orderBinding(Queue orderQueue, TopicExchange appExchange) {
+        return BindingBuilder.bind(orderQueue).to(appExchange).with(ORDER_ROUTING_KEY);
+    }
+
+
+
+
+
+    //Todo -> Untuk auto convert ke JSON , Message converter untuk JSON
+    @Bean
+    public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
+    // RabbitTemplate dengan converter
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(jackson2JsonMessageConverter());
+        return template;
+    }
+
+    // Todo -> supaya listener yg menerima auto di convert dari Json ke Java Object
+    @Bean
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(jackson2JsonMessageConverter());
+        return factory;
     }
 
 }

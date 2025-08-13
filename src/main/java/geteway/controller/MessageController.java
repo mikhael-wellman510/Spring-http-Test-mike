@@ -36,7 +36,7 @@ public class MessageController {
         String json = objectMapper.writeValueAsString(messageRequest);
         log.info("Hasil json : {} " , json);
 
-        rabbitTemplate.convertAndSend(RabbitMqConfig.QUEUE_NAME ,json);
+        rabbitTemplate.convertAndSend(RabbitMqConfig.APP_EXCHANGE ,json);
 
         return "Success";
     };
@@ -48,6 +48,6 @@ public class MessageController {
         chat.setContent("Notif Test");
 
         String json = objectMapper.writeValueAsString(chat);
-        rabbitTemplate.convertAndSend("exampleQueue",json);
+        rabbitTemplate.convertAndSend(RabbitMqConfig.APP_EXCHANGE,json);
     }
 }

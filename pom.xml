@@ -30,6 +30,12 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+<!--	Circuit Braker Lib	-->
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-spring-boot2</artifactId> <!-- atau spring-boot3 jika tersedia -->
+			<version>2.1.0</version>
+		</dependency>
 		<dependency>
 			<groupId>com.example</groupId>
 			<artifactId>MikhaelLib</artifactId>
