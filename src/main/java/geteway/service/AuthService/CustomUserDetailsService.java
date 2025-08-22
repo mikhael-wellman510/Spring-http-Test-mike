@@ -20,6 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
 		Users users = userRepository.findByUsername(username).orElseThrow(()->new RuntimeException("Username Not found"));
 
 		UserPrincipal up = new UserPrincipal();
@@ -30,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		up.setAddress(users.getAddress());
 		up.setAge(users.getAge());
 		up.setRoles(users.getRoles());
-		log.info("Cek load");
+		log.info("Simpan data ke users principals !");
 		return up;
 	}
 }

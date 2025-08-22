@@ -26,11 +26,11 @@ public class UsernamePasswordAuth implements AuthenticationProvider {
 			String password = authentication.getCredentials().toString();
 
 			UserPrincipal up = (UserPrincipal)customUserDetailsService.loadUserByUsername(username);
-			log.info("Password : {} " , up);
+			log.info("Username benar !");
 			if(passwordEncoder.matches(password,up.getPassword())){
 				String token = jwtUtils.generateToken(up);
 				up.setJwtToken(token);
-
+				log.info("Password benar !");
 				return new UsernamePasswordAuthenticationToken(up,password,up.getAuthorities());
 			}else {
 				throw new RuntimeException("Password invalid");
