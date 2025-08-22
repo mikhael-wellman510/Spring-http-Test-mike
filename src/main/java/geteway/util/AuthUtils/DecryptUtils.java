@@ -1,4 +1,4 @@
-package geteway.util;
+package geteway.util.AuthUtils;
 
 import lombok.experimental.UtilityClass;
 

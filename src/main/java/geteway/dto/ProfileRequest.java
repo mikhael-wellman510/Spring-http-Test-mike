@@ -10,6 +10,7 @@ import lombok.*;
 public class ProfileRequest {
     private String id;
     private String name;
+    private String nip;
     private String address;
     private Integer age;
     private Integer weight;

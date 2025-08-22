@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
+@ToString
 public class ProfileDto {
     private Long id;
     private String name;

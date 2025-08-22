@@ -1,4 +1,4 @@
-package geteway.dto;
+package geteway.dto.AuthenticationDto;
 
 import lombok.*;
 

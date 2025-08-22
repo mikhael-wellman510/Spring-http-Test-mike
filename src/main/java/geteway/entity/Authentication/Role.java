@@ -1,4 +1,4 @@
-package geteway.entity;
+package geteway.entity.Authentication;
 
 import jakarta.persistence.*;
 import lombok.*;

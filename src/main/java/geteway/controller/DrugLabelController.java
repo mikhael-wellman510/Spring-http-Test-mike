@@ -1,6 +1,7 @@
 package geteway.controller;
 
 import geteway.service.DrugLabelService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,13 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
+@RequiredArgsConstructor
 public class DrugLabelController {
 
     private final DrugLabelService drugLabelService;
 
-    public DrugLabelController(DrugLabelService drugLabelService){
-        this.drugLabelService = drugLabelService;
-    }
+
 
     @GetMapping("/findLabelDrug")
     public CompletableFuture<?>findAllLabel(){
