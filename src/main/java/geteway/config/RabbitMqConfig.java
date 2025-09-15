@@ -22,6 +22,7 @@ public class RabbitMqConfig {
     public static final String BROADCAST_ROUTING_KEY = "broadcast";
     public static final String BROADCAST_MESSAGE_KEY = "broadcast_message";
     public static final String ORDER_ROUTING_KEY = "order";
+    public static final String TESTING_ROUTING_KEY = "testing";
 
 
     // Todo -> Queue Names
@@ -29,7 +30,7 @@ public class RabbitMqConfig {
     public static final String BROADCAST_MESSAGE_QUEUE = "broadcast.message.queue";
     public static final String ORDER_QUEUE = "order.queue";
     public static final String PAYMENT_QUEUE = "payment.queue";
-
+    public static final String TESTING_QUEUE = "testing.queue";
 
 
     //Todo -> Declare Topic Exchange
@@ -58,7 +59,9 @@ public class RabbitMqConfig {
         return new Queue(PAYMENT_QUEUE, true); // durable
     }
 
-
+    @Bean Queue testingQueue(){
+        return new Queue(TESTING_QUEUE ,true);
+    }
 
 
 
@@ -78,6 +81,10 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(orderQueue).to(appExchange).with(ORDER_ROUTING_KEY);
     }
 
+    @Bean
+    public Binding testingBinding(Queue testingQueue, TopicExchange appExchange){
+        return BindingBuilder.bind(testingQueue).to(appExchange).with(TESTING_ROUTING_KEY);
+    }
 
 
 

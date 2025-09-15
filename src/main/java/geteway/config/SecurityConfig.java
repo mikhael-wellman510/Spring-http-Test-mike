@@ -37,15 +37,16 @@ public class SecurityConfig {
 				.csrf(AbstractHttpConfigurer::disable) // gunakan SameSite=Strict + origin check
 				.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/api/v1/auth/**" ,"/api/v1/authTest/**").permitAll()
+						.requestMatchers("/api/v1/auth/**" ,"/api/v1/authTest/**" , "/testing/**" , "/**" ).permitAll()
 						.requestMatchers("/admin/**").hasRole("ADMIN")
 						.requestMatchers("/manager/**").hasAnyRole("MANAGER","ADMIN")
 						.requestMatchers("/user/**").hasAnyRole("USER","ADMIN","MANAGER")
+						.requestMatchers("/api/manager/**").hasAnyRole("MANAGER")
 						.anyRequest().authenticated()
 				)
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-		log.info("FilterChain");
+		log.info("----- FilterChain ----");
 		return http.build();
 	}
 

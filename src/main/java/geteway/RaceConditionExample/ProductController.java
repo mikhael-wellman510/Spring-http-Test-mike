@@ -14,7 +14,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PutMapping("/addQty")
-    public ResponseEntity<?> add(@RequestBody ProductRequest productRequest) throws InterruptedException {
+    public ResponseEntity<?> addssss(@RequestBody ProductRequest productRequest) throws InterruptedException {
 
         ProductResponse productResponse = productService.editQty(productRequest);
 

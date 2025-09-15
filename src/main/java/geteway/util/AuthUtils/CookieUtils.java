@@ -33,10 +33,10 @@ public class CookieUtils {
 
 	public String getTokenFromCookies(HttpServletRequest request) {
 		Cookie[]cookies = request.getCookies();
-		log.info("Cookies : {} " ,cookies);
+//		log.info("Cookies : {} " ,cookies);
 		if (cookies == null) return null;
 		for (Cookie c : cookies) {
-			log.info("cookie name : {} " ,c.getName());
+//			log.info("cookie name : {} " ,c.getName());
 			if (CookieEnum.AUTH_TOKEN.name().equals(c.getName())) {
 				return c.getValue();
 			}

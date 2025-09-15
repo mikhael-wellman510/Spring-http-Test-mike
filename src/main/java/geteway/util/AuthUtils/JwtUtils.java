@@ -57,7 +57,8 @@ public class JwtUtils {
 
 		} catch (JwtException e) {
 			log.info("Err : {} " ,e.getMessage());
-			return null; // invalid token
+			return null;
+
 		}
 
 	}

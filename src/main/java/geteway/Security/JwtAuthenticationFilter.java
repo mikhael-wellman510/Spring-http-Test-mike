@@ -29,18 +29,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final JwtUtils jwtUtils;
 
 	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//		logger.info("---- ShouldNotFilter !!!! ----");
+		String path = request.getServletPath();
+//		logger.info("Path : " + path);
+
+		return !path.startsWith("/api/restricted/") && !path.startsWith("/api/manager/");
+	}
+
+	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-			logger.info("cek");
+//			logger.info("---- Do Filter Internal ----");
 
 			// todo -> dapatkan token dari cookies
 			String token = cookieUtils.getTokenFromCookies(request);
-			logger.info("token from cookie : " + token);
+//			logger.info("token from cookie : " + token);
+
 
 		if (token != null) {
 			Map<String,Object> claims = jwtUtils.validateTokenUsernameClaims(token);
-			logger.info("get username : {} " + claims);
+
 			String username = claims.get("username").toString();
-			logger.info("username " + username);
+
 			UserPrincipal up = (UserPrincipal)customUserDetailsService.loadUserByUsername(username);
 			if (username != null) {
 				UsernamePasswordAuthenticationToken auth =

@@ -32,6 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		up.setAge(users.getAge());
 		up.setRoles(users.getRoles());
 		log.info("Simpan data ke users principals !");
+		log.info("Custom User Details Service - Load by username");
 		return up;
 	}
 }

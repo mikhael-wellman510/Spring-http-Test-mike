@@ -12,6 +12,8 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+
+    // Pesimistic
     @Override
     @Transactional
     public ProductResponse editQty(ProductRequest productRequest) {
