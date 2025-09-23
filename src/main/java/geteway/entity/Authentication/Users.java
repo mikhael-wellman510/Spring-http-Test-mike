@@ -34,4 +34,5 @@ public class Users {
 			inverseJoinColumns = @JoinColumn(name = "role_id")
 	)
 	private Set<Role> roles;
+	private Long balance;
 }

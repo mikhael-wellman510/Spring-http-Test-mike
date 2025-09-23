@@ -51,7 +51,7 @@ public class AuthenticationController {
 	public ResponseEntity<?>login(@RequestBody LoginRequest loginRequest , HttpServletResponse response){
 		String password = DecryptUtils.decrypt(loginRequest.getPassword());
 		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), password);
-		log.info("controller");
+
 		Authentication authentication = authenticationManager.authenticate(auth);
 
 		// Todo -> coba pakai , dan tidak pakai , kata bikin user yg login ga ketawan

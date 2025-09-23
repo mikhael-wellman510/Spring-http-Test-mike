@@ -20,7 +20,7 @@ public class UsernamePasswordAuth implements AuthenticationProvider {
 	private final JwtUtils jwtUtils;
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		log.info("Authenrication usernamePasswordAuth");
+		log.info("Authenrication usernamePasswordAuth !!!");
 		try {
 			String username = authentication.getName();
 			String password = authentication.getCredentials().toString();
