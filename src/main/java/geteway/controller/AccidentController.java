@@ -19,6 +19,19 @@ public class AccidentController {
 
 	private final AccidentServiceImpl accidentService;
 	private AtomicInteger atomicInteger = new AtomicInteger(0);
+
+
+	@GetMapping("/city")
+	public ResponseEntity<?>searchByCity(@RequestParam(name = "city",defaultValue = "")String city , @RequestParam(name = "page" ,defaultValue = "0")int page , @RequestParam(name = "size" , defaultValue = "5")int size){
+		log.info("Run : {} " , city);
+		var res = accidentService.searchByCity(page, size, city);
+
+		return ResponseEntity.ok(res);
+
+	}
+
+
+
 	@GetMapping("/acc")
 	public ResponseEntity<?>findByAirport(@RequestParam(name = "airport_code")String airportCode){
 		log.info("****Acc controller***");
@@ -26,6 +39,8 @@ public class AccidentController {
 
 		return ResponseEntity.ok(data);
 	}
+
+
 
 	@GetMapping("/country")
 	public ResponseEntity<?>findByCountry(@RequestParam(name = "name")String name){
