@@ -68,9 +68,10 @@ public class AuthenticationController {
 	public void addSecureHttpOnlyCookie(HttpServletResponse response , String key , String value){
 		Cookie cookie =new Cookie(key , value);
 		cookie.setHttpOnly(true);
-		cookie.setSecure(true);
+		cookie.setSecure(false);
 		cookie.setPath("/");
 		cookie.setMaxAge(24 * 60 * 60);
+		cookie.setDomain("localhost");
 
 		response.addCookie(cookie);
 

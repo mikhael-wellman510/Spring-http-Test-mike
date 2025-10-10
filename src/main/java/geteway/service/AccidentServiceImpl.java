@@ -20,6 +20,16 @@ public class AccidentServiceImpl {
 	private Integer count = 0;
 	private AtomicInteger counts = new AtomicInteger(0);
 
+
+	public void loadingSimulation(){
+
+		Long totalRow = accidentRepository.countAllAccident();
+
+		log.info("hasil total row : {} " ,  totalRow);
+
+	}
+
+
 	public Page<Accident>searchByCity(int page,int size , String city){
 
 		Pageable pageable = PageRequest.of(page,size , Sort.by("id").descending());

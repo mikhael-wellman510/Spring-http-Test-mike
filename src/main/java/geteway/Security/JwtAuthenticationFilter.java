@@ -40,10 +40,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 //			logger.info("---- Do Filter Internal ----");
-
+			logger.info("filter internal");
 			// todo -> dapatkan token dari cookies
 			String token = cookieUtils.getTokenFromCookies(request);
-//			logger.info("token from cookie : " + token);
+			logger.info("token from cookie : " + token);
 
 
 		if (token != null) {
@@ -52,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			String username = claims.get("username").toString();
 
 			UserPrincipal up = (UserPrincipal)customUserDetailsService.loadUserByUsername(username);
+			up.setJwtToken(token);
 			logger.info("hasil up : {} " + up);
 			if (username != null) {
 				UsernamePasswordAuthenticationToken auth =

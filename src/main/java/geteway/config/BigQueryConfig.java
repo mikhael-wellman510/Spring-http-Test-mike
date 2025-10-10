@@ -20,7 +20,7 @@ public class BigQueryConfig {
     public BigQuery bigQuery() throws IOException {
 
         return BigQueryOptions.newBuilder().setCredentials(ServiceAccountCredentials.fromStream(
-                        new FileInputStream("C:\\Users\\Mikhael Wellman\\Documents\\MICROSERVICE\\gateway\\src\\main\\resources\\tokyo-guild-445605-n2-a8e7dd2c805f.json")
+                        new FileInputStream("C:\\Users\\Mikhael Wellman\\Documents\\MICROSERVICE\\gateway\\src\\main\\resources\\athena-relmanager-non-prod-c7f25a770cdc.json")
 
                 )).build()
                 .getService();

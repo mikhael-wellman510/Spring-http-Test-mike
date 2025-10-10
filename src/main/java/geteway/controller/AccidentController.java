@@ -1,13 +1,11 @@
 package geteway.controller;
 
 import geteway.service.AccidentServiceImpl;
+import geteway.service.email.SendEmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -19,7 +17,21 @@ public class AccidentController {
 
 	private final AccidentServiceImpl accidentService;
 	private AtomicInteger atomicInteger = new AtomicInteger(0);
+	private final SendEmailService sendEmailService;
 
+	@PostMapping("/sendEmail")
+	public ResponseEntity<?>send(){
+
+		var send = sendEmailService.sendEmail();
+
+		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/loading")
+	public void testLoading(){
+
+		accidentService.loadingSimulation();
+	}
 
 	@GetMapping("/city")
 	public ResponseEntity<?>searchByCity(@RequestParam(name = "city",defaultValue = "")String city , @RequestParam(name = "page" ,defaultValue = "0")int page , @RequestParam(name = "size" , defaultValue = "5")int size){

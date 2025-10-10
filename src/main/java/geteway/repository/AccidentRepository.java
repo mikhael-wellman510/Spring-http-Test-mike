@@ -20,4 +20,7 @@ public interface AccidentRepository extends JpaRepository<Accident, Long> {
 	List<Accident>findCountry(String name);
 
 	Page<Accident> findByCityContainingIgnoreCase(String city , Pageable pageable);
+
+	@Query(value = "select count(*) from accident" , nativeQuery = true)
+	Long countAllAccident();
 }
